@@ -33,6 +33,20 @@ pipeline {
         }
       }
     }
+    stage("Docker Push") {
+      steps {
+        echo "Running in $WORKSPACE"
+        dir("$WORKSPACE/azure-vote") {
+          script {
+            docker.withRegistry('', 'docker-hub') {
+              def image = docker.build('chad38/jenkins-cicd:2023')
+              image.push()
+            }
+          }
+        }
+      }
+    }
+        
   }
   post {
      always {
