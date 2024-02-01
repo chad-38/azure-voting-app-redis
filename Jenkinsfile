@@ -1,6 +1,9 @@
 pipeline {
-  agent any
-
+  agent {
+    label {
+      label 'node1'
+    }
+  }
   stages {
     stage("Verify Branch") {
       steps {
