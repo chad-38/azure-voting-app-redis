@@ -44,7 +44,9 @@ pipeline {
     stage("Run Clair Scan") {
       agent {label 'node1'}
       steps {
-        sh(script: '/home/ubuntu/go/bin/clair-scanner --ip=127.0.0.1 chad38/jenkins-cicd:2023')
+        sh(script: 'wget -qO clair-scanner https://github.com/arminc/clair-scanner/releases/download/v8/clair-scanner_linux_amd64'
+        sh(script: 'chmod +x clair-scanner  && mv clair-scanner /tmp/')
+        sh(script: '/tmp/clair-scanner --ip=127.0.0.1 chad38/jenkins-cicd:2023')
         
       }
     } 
