@@ -33,20 +33,21 @@ pipeline {
         }
       }
     }
-    stage("Docker Push") {
+    stage("Run Clair") {
+      agent {label 'node1'}
       steps {
-        echo "Running in $WORKSPACE"
-        dir("$WORKSPACE/azure-vote") {
-          script {
-            docker.withRegistry('', 'docker-hub') {
-              def image = docker.build('chad38/jenkins-cicd:2023')
-              image.push()
-            }
-          }
-        }
+        sh(script: 'docker run -p 5432:5432 -d --name db arminc/clair-db:latest')
+        sh(script: 'docker run -p 6060:6060 --link db:postgres -d --name clair arminc/clair-local-scan:latest')
       }
     }
+
+    stage("Run Clair Scan") {
+      agent {label 'node1'}
+      steps {
+        sh(script: '/home/ubuntu/go/bin/clair-scanner --ip=127.0.0.1 chad38/jenkins-cicd:2023')
         
+      }
+    } 
   }
   post {
      always {
