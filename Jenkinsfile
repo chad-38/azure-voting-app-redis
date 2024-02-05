@@ -50,7 +50,7 @@ pipeline {
             sh(script: 'wget -qO clair-scanner https://github.com/arminc/clair-scanner/releases/download/v8/clair-scanner_linux_amd64')
             sh(script: 'chmod +x clair-scanner')
             sh(script: 'mv clair-scanner /tmp')
-            sh(script: '/tmp/clair-scanner --ip=localhost chad38/jenkins-cicd:2023')
+            sh(script: "/tmp/clair-scanner 'chad38/jenkins-cicd:2023'")
             sleep time: 1, unit: 'MINUTES'
            }
         }
