@@ -75,7 +75,17 @@ pipeline {
     }
     stage('Approve Deploy to Prod') {
       agent {label 'kube-control'}
+      when {
+        branch 'feature/k8-deploy'
+      }
+      options {
+        timeout(time: 1, unit: 'Hours')
+      }
+      steps {
+        input message: "Deploy to PROD?"
+      }
     }
+    
     stage('PROD Deploy') {
       agent {label 'kube-control'}
       when {
