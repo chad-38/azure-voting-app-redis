@@ -79,7 +79,7 @@ pipeline {
         branch 'feature/k8-deploy'
       }
       options {
-        timeout(time: 1, unit: 'Hours')
+        timeout(time: 1, unit: 'HOURS')
       }
       steps {
         input message: "Deploy to PROD?"
