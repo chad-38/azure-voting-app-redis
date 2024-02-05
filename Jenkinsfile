@@ -74,8 +74,10 @@ pipeline {
       }
     }
     stage('Approve Deploy to Prod') {
+      agent {label 'kube-control'}
     }
     stage('PROD Deploy') {
+      agent {label 'kube-control'}
       when {
         branch 'feature/k8-deploy'
       }
