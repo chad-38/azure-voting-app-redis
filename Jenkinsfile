@@ -38,6 +38,7 @@ pipeline {
       steps {
         sh(script: 'docker run -p 5432:5432 -d --name db arminc/clair-db:latest')
         sh(script: 'docker run -p 6060:6060 --link db:postgres -d --name clair arminc/clair-local-scan:latest')
+        sh(script: 'docker pull chad38/jenkins-cicd:2023')
       }
     }
 
@@ -61,6 +62,29 @@ pipeline {
         }
       }
     }
+
+    stage("QA Deploy") {
+      agent {label 'kube-control'}
+      when {
+        branch 'feature/k8-deploy'
+      }
+      steps {
+        sh(script: 'kubectl create ns QA')
+        sh(script: 'kubectl apply -f azure-vote-all-in-one-redis.yaml -n QA')
+      }
+    }
+    stage('Approve Deploy to Prod') {
+    }
+    stage('PROD Deploy') {
+      when {
+        branch 'feature/k8-deploy'
+      }
+      steps {
+        sh(script: 'kubectl create ns PROD')
+        sh(script: 'kubectl apply -f azure-vote-all-in-one-redis.yaml -n PROD')
+      }
+    }
+
   }
   post {
      always {
