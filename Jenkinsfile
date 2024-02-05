@@ -69,8 +69,8 @@ pipeline {
         branch 'feature/k8-deploy'
       }
       steps {
-        sh(script: 'kubectl create ns QA')
-        sh(script: 'kubectl apply -f azure-vote-all-in-one-redis.yaml -n QA')
+        sh(script: 'kubectl create ns qa')
+        sh(script: 'kubectl apply -f azure-vote-all-in-one-redis.yaml -n qa')
       }
     }
     stage('Approve Deploy to Prod') {
@@ -92,8 +92,8 @@ pipeline {
         branch 'feature/k8-deploy'
       }
       steps {
-        sh(script: 'kubectl create ns PROD')
-        sh(script: 'kubectl apply -f azure-vote-all-in-one-redis.yaml -n PROD')
+        sh(script: 'kubectl create ns prod')
+        sh(script: 'kubectl apply -f azure-vote-all-in-one-redis.yaml -n prod')
       }
     }
 
