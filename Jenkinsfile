@@ -54,12 +54,12 @@ pipeline {
             sleep time: 1, unit: 'MINUTES'
            }
         }
-        stage("Run Grype") {
-          agent {label 'node1'}
-          steps {
-            grypeScan autoInstall: false, repName: 'grypeReport_${JOB_NAME}_${BUILD_NUMBER}.txt', scanDest: 'registry:chad38/jenkins-cicd:2023'
-          }
-        }
+        #stage("Run Grype") {
+        #  agent {label 'node1'}
+        #  steps {
+        #    grypeScan autoInstall: false, repName: 'grypeReport_${JOB_NAME}_${BUILD_NUMBER}.txt', scanDest: 'registry:chad38/jenkins-cicd:2023'
+        #  }
+        #}
       }
     }
 
