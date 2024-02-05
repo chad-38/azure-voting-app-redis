@@ -20,6 +20,16 @@ if ("VOTE2VALUE" in os.environ and os.environ['VOTE2VALUE']):
 else:
     button2 = app.config['VOTE2VALUE']
 
+if ("VOTE3VALUE" in os.environ and os.environ['VOTE3VALUE']):
+    button3 = os.environ['VOTE3VALUE']
+else:
+    button3 = app.config['VOTE3VALUE']
+
+if ("VOTE4VALUE" in os.environ and os.environ['VOTE4VALUE']):
+    button4 = os.environ['VOTE4VALUE']
+else:
+    button4 = app.config['VOTE4VALUE']
+
 if ("TITLE" in os.environ and os.environ['TITLE']):
     title = os.environ['TITLE']
 else:
@@ -47,6 +57,8 @@ if app.config['SHOWHOST'] == "true":
 # Init Redis
 if not r.get(button1): r.set(button1,0)
 if not r.get(button2): r.set(button2,0)
+if not r.get(button3): r.set(button3,0)
+if not r.get(button4): r.set(button4,0)
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -55,7 +67,9 @@ def index():
 
         # Get current values
         vote1 = r.get(button1).decode('utf-8')
-        vote2 = r.get(button2).decode('utf-8')            
+        vote2 = r.get(button2).decode('utf-8')
+        vote3 = r.get(button3).decode('utf-8')
+        vote4 = r.get(button4).decode('utf-8')            
 
         # Return index with values
         return render_template("index.html", value1=int(vote1), value2=int(vote2), button1=button1, button2=button2, title=title)
@@ -69,6 +83,8 @@ def index():
             r.set(button2,0)
             vote1 = r.get(button1).decode('utf-8')
             vote2 = r.get(button2).decode('utf-8')
+            vote3 = r.get(button3).decode('utf-8')
+            vote4 = r.get(button4).decode('utf-8')
             return render_template("index.html", value1=int(vote1), value2=int(vote2), button1=button1, button2=button2, title=title)
         
         else:
@@ -79,10 +95,12 @@ def index():
             
             # Get current values
             vote1 = r.get(button1).decode('utf-8')
-            vote2 = r.get(button2).decode('utf-8')  
+            vote2 = r.get(button2).decode('utf-8')
+            vote3 = r.get(button3).decode('utf-8')
+            vote4 = r.get(button4).decode('utf-8')
                 
             # Return results
-            return render_template("index.html", value1=int(vote1), value2=int(vote2), button1=button1, button2=button2, title=title)
+            return render_template("index.html", value1=int(vote1), value2=int(vote2), value3=int(vote3), value4=int(vote4), button1=button1, button2=button2, button3=button3, button4=button4, title=title)
 
 if __name__ == "__main__":
     app.run()
