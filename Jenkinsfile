@@ -43,6 +43,7 @@ pipeline {
   post {
      always {
        sh (script: 'docker-compose down')
+       cleanWs()
       }
     }
   }
