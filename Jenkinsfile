@@ -36,7 +36,7 @@ pipeline {
     stage("Trivy Scan") {
       steps {
         sh (script: "docker run --rm aquasec/trivy image --format json --output vuln-results.json chad38/jenkins-cicd:2023")
-        archiveArtifacts artifacts: '*.json', fingerprint: true, followSymlinks: false, onlyIfSuccessful: true
+        fingerprint '*.json', onlyIfSuccessful: true
         
       }
     }
@@ -46,8 +46,7 @@ pipeline {
        sh (script: 'docker-compose down')
        cleanWs(patterns: [
          [pattern: '*.json', type: 'EXCLUDE']
-         [pattern: '*.zip', type: 'EXCLUDE']
-       ]
+         ]
         )
       }
     }
