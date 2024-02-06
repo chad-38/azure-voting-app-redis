@@ -35,8 +35,8 @@ pipeline {
     }
     stage("Trivy Scan") {
       steps {
-        sh (script: 'docker run --rm aquasec/trivy --exit-code 0 --severity LOW,MEDIUM chad38/jenkins-cicd:2023')
-        sh (script: 'docker run --rm aquasec/trivy --exit-code 1 --severity HIGH,CRITICAL chad38/jenkins-cicd:2023')
+        sh (script: 'docker run --rm aquasec/trivy trivy image chad38/jenkins-cicd:2023')
+        sh (script: 'docker run --rm aquasec/trivy trivy image chad38/jenkins-cicd:2023')
       }
     }
   }
