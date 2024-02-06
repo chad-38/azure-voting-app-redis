@@ -33,6 +33,13 @@ pipeline {
         }
       }
     }
+    stage("Trivy Scan") {
+      steps {
+        sh(script: 'docker run --rm aquasec/trivy ')
+        sh (script: 'docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v ${WORKSPACE}/trivy-cache:/root/.cache/ aquasec/trivy --exit-code 0 --severity LOW,MEDIUM chad38/jenkins-cicd:2023')
+        sh (script: 'docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v ${WORKSPACE}/trivy-cache:/root/.cache/ aquasec/trivy --exit-code 1 --severity HIGH,CRITICAL chad38/jenkins-cicd:2023')
+      }
+    }
   }
   post {
      always {
