@@ -37,14 +37,16 @@ pipeline {
       steps {
         sh (script: "docker run --rm aquasec/trivy image --format json --output vuln-results.json chad38/jenkins-cicd:2023")
         
+        
       }
     }
   }
   post {
      always {
+       archiveArtifacts artifacts: '*.json', fingerprint: true, followSymlinks: false
        sh (script: 'docker-compose down')
-       cleanWs(patterns: [
-         [pattern: '*.json', type: 'EXCLUDE']
+       cleanWs deleteDirs: true, patterns: [[pattern: '*.zip, *.json', type: 'EXCLUDE']]
+         
          ]
         )
       }
