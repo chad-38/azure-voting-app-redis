@@ -35,8 +35,7 @@ pipeline {
     }
     stage("Trivy Scan") {
       steps {
-        sh (script: 'docker run --rm aquasec/trivy trivy image chad38/jenkins-cicd:2023')
-        sh (script: 'docker run --rm aquasec/trivy trivy image chad38/jenkins-cicd:2023')
+        sh (script: "docker run --rm aquasec/trivy /bin/sh trivy image chad38/jenkins-cicd:2023")
       }
     }
   }
