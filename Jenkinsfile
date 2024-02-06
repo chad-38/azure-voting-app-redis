@@ -46,9 +46,6 @@ pipeline {
        archiveArtifacts artifacts: '*.json', fingerprint: true, followSymlinks: false
        sh (script: 'docker-compose down')
        cleanWs deleteDirs: true, patterns: [[pattern: '*.zip, *.json', type: 'EXCLUDE']]
-         
-         ]
-        )
       }
     }
   }
