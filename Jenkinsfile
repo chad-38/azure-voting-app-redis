@@ -36,7 +36,6 @@ pipeline {
     stage("Trivy Scan") {
       steps {
         sh (script: "docker run --rm aquasec/trivy image --format json --output vuln-results.json chad38/jenkins-cicd:2023")
-        fingerprint 'vuln-results.json', onlyIfSuccessful: true
         
       }
     }
