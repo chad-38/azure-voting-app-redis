@@ -43,7 +43,7 @@ pipeline {
   }
   post {
      always {
-       archiveArtifacts artifacts: 'vuln-results.json', fingerprint: true, followSymlinks: false
+       archiveArtifacts artifacts: '**/*.json', fingerprint: true, followSymlinks: false
        sh (script: 'docker-compose down')
        cleanWs deleteDirs: true, patterns: [[pattern: '*.zip, *.json', type: 'EXCLUDE']]
       }
