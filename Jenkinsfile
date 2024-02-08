@@ -35,7 +35,8 @@ pipeline {
     }
     stage("Trivy Scan") {
       steps {
-        sh (script: "docker run --rm aquasec/trivy image --format json --output vuln-results.json chad38/jenkins-cicd:2023")
+        sh (script: "curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin")
+        sh (script: "trivy image --format json --output vuln-results.json chad38/jenkins-cicd:2023")
         
         
       }
@@ -43,7 +44,7 @@ pipeline {
   }
   post {
      always {
-       archiveArtifacts artifacts: '**/*.json', fingerprint: true, followSymlinks: false
+       archiveArtifacts artifacts: '*.json', fingerprint: true, followSymlinks: false
        sh (script: 'docker-compose down')
        cleanWs deleteDirs: true, patterns: [[pattern: '*.zip, *.json', type: 'EXCLUDE']]
       }
