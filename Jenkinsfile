@@ -35,7 +35,6 @@ pipeline {
     }
     stage("Trivy Scan") {
       steps {
-        sh (script: "curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin")
         sh (script: "trivy image --format json --output vuln-results.json chad38/jenkins-cicd:2023")
         
         
